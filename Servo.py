@@ -2,12 +2,17 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 class Servo:
+   # Shared attributes for all instances 
    minDutyCycle = 3
    middleDutyCycle = 8
    maxDutyCycle = 12   
+   operatingDutyScale = maxDutyCycle - minDutyCycle
+   # Unique attributes
+   # pwm
+   # currentDegree
    
    def __init__(self, pin, degree=None):
-      self.operatingDutyScale = self.maxDutyCycle - self.minDutyCycle
+      
       GPIO.setmode(GPIO.BCM)
       GPIO.setup(pin, GPIO.OUT)
       self.pwm = GPIO.PWM(pin, 50)
@@ -42,23 +47,24 @@ class Servo:
          self.currentDegree = degree
          sleep(reponseTime)
       
-
+##### Testing Servo class =====
+         
 MG90S = Servo(17, 90)
 
-##try:
-##   print("Start MG90S")
-##   while True:
-##      MG90S.setDegree(0)
-##      sleep(0.5)
-##      MG90S.setDegree(90)
-##      sleep(0.5)
-##      MG90S.setDegree(180)
-##      sleep(0.5)
-##      MG90S.setDegree(90)
-##      sleep(0.5)
-##except KeyboardInterrupt:
-##  del MG90S
-##  print("Stop MG90S")
+try:
+   print("Start MG90S")
+   while True:
+      MG90S.setDegree(0)
+      sleep(0.5)
+      MG90S.setDegree(90)
+      sleep(0.5)
+      MG90S.setDegree(180)
+      sleep(0.5)
+      MG90S.setDegree(90)
+      sleep(0.5)
+except KeyboardInterrupt:
+  del MG90S
+  print("Stop MG90S")
       
 
    
