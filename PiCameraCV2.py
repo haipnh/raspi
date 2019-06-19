@@ -30,14 +30,28 @@ class PiCameraCV2:
 
    def release(self):
       self.camera.close()
-      
+
+# ===== HOW TO USE ===== 
+
+# Create PiCameraCV2 object      
 PiCam = PiCameraCV2()
+
+# Warming up PiCamera
 print("Warming up")
 sleep(2)
 print("Warmed up")
+
+# Capture the frame
 ret, frame = PiCam.read()
+
+# If capture successfully
+if ret:
+   cv2.imshow("PiCameraCV2", frame)
+
+# Release PiCamera
 PiCam.release()
-cv2.imshow("frame", frame)
+
+# Press any key to close display window
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 print("Done")
