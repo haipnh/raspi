@@ -3,9 +3,9 @@ from time import sleep
 
 class Servo:
    # Shared attributes for all instances 
-   minDutyCycle = 3
-   middleDutyCycle = 8
-   maxDutyCycle = 12   
+   minDutyCycle = 2
+   middleDutyCycle = 7.5
+   maxDutyCycle = 12.5
    operatingDutyScale = maxDutyCycle - minDutyCycle
    # Unique attributes
    # pwm
@@ -17,16 +17,16 @@ class Servo:
       GPIO.setup(pin, GPIO.OUT)
       self.pwm = GPIO.PWM(pin, 50)
 
-      self.pwm.start(self.minDutyCycle) # Go to 0 degree position
+      self.pwm.start(self.middleDutyCycle) # Go to 0 degree position
       sleep(0.5) # For safety
-      self.currentDegree=0
+      self.currentDegree=90
       
       if degree is not None:
          self.currentDegree=degree
          self.setDegree(degree)         
          
    def __del__(self):
-      self.setDegree(0)
+      self.setDegree(90)
       self.pwm.stop()
       GPIO.cleanup()
 
@@ -40,7 +40,7 @@ class Servo:
          
          # At 5V, 0.1s is required to rotate 60 degree
          diff = abs(degree - self.currentDegree)
-         reponseTime = ((diff // 60) + 1) * 0.1
+         reponseTime = ((diff // 60) + 1) * 0.2
 
          # Perform action
          self.pwm.ChangeDutyCycle(dutyCycle)
@@ -49,11 +49,12 @@ class Servo:
       
 ##### Testing Servo class =====
          
-MG90S = Servo(17, 90)
-
 try:
+   MG90S = Servo(17, 90)
    print("Start MG90S")
    while True:
+##      pass
+##   while True:
       MG90S.setDegree(0)
       sleep(0.5)
       MG90S.setDegree(90)
